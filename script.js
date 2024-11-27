@@ -6,17 +6,21 @@ let score = 10;
 
 let highscore = 0;
 
+function displayMessage(message) {
+  document.querySelector('.message').textContent = message;
+}
+
 document.querySelector('.check').addEventListener('click', function () {
   let guess = document.querySelector('.guess').value;
 
   // guess is empty
   if (!guess) {
-    document.querySelector('.message').textContent = '⛔ No Number';
+    displayMessage('⛔ No Number');
   }
 
   // guess is correct
   else if (guess == secretNumber) {
-    document.querySelector('.message').textContent = '🎉 Correct';
+    displayMessage('🎉 Correct');
     document.querySelector('.number').textContent = secretNumber;
     document.querySelector('body').style.backgroundColor = ' #60b347';
     document.querySelector('.number').style.width = '30rem';
@@ -26,26 +30,14 @@ document.querySelector('.check').addEventListener('click', function () {
     }
   }
 
-  //guess is to high
-  else if (guess > secretNumber) {
+  //guess is not correct
+  else if (guess !== secretNumber) {
     if (score > 1) {
-      document.querySelector('.message').textContent = '📈 To High';
+      displayMessage(guess > secretNumber ? '📈 To High' : '📉 To Low');
       score--;
       document.querySelector('.score').textContent = score;
     } else {
-      document.querySelector('.message').textContent = '😔 You Lost The Game';
-      document.querySelector('.score').textContent = 0;
-    }
-  }
-
-  //guess is to low
-  else if (guess < secretNumber) {
-    if (score > 1) {
-      document.querySelector('.message').textContent = '📉 To Low';
-      score--;
-      document.querySelector('.score').textContent = score;
-    } else {
-      document.querySelector('.message').textContent = '😔 You Lost The Game';
+      displayMessage('😔 You Lost The Game');
       document.querySelector('.score').textContent = 0;
     }
   }
@@ -58,6 +50,6 @@ document.querySelector('.again').addEventListener('click', function () {
   document.querySelector('.number').style.width = '15rem';
   document.querySelector('.number').textContent = '?';
   document.querySelector('.guess').value = '';
-  document.querySelector('.message').textContent = 'Start guessing...';
+  displayMessage('Start guessing...');
   document.querySelector('.score').textContent = '10';
 });
